@@ -7,7 +7,7 @@ import type { UserConfig } from "vite";
 export default defineConfig(({ mode }) => {
   const config: UserConfig = { plugins: [react()] };
   if (mode === "production") {
-    config["base"] = "https://isutomu.github.io/odin-book-frontend-top/";
+    config["base"] = "/odin-book-frontend-top/";
   }
 
   return config;
