@@ -1,17 +1,21 @@
+// 3rd Party Modules
 import { useState } from "react";
-import reactLogo from "/react.svg";
 import viteLogo from "/vite.svg";
-import "./Boilerplate.css";
-import { useQuery } from "@tanstack/react-query";
 
-function Boilerplate() {
+// Local Modules
+import "./Login.css";
+import { useQuery } from "@tanstack/react-query";
+import reactLogo from "/react.svg";
+
+// Exportable Component
+export const Login = () => {
   const [count, setCount] = useState<number>(0);
 
   const initialQuery = useQuery({
     queryKey: ["postInitial"],
     queryFn: async () => {
       const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts/1"
+        "https://jsonplaceholder.typicode.com/posts/1",
       );
       if (!response.ok) {
         throw new Error("Failed to do the initial fetch");
@@ -23,7 +27,7 @@ function Boilerplate() {
     queryKey: ["postConditional"],
     queryFn: () =>
       fetch("https://jsonplaceholder.typicode.com/posts/2").then((res) =>
-        res.json()
+        res.json(),
       ),
     enabled: false,
   });
@@ -61,6 +65,4 @@ function Boilerplate() {
       )}
     </>
   );
-}
-
-export default Boilerplate;
+};

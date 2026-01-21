@@ -7,7 +7,7 @@ import { setupWorker } from "msw/browser";
 import { http, HttpResponse } from "msw";
 
 // Local Modules
-import Boilerplate from "../Boilerplate";
+import { Login } from "../Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Constants
@@ -29,7 +29,7 @@ const worker = setupWorker(
       title: "lol",
       body: "lol\nlol\nlol\nlololol",
     });
-  })
+  }),
 );
 
 // Hooks
@@ -44,7 +44,7 @@ describe("Button", () => {
 
     return (
       <QueryClientProvider client={queryClient}>
-        <Boilerplate />
+        <Login />
       </QueryClientProvider>
     );
   };
@@ -82,9 +82,9 @@ describe("Button", () => {
       http.get(serverUrlInitialFetch, () => {
         return HttpResponse.json(
           { message: "Registration failed" },
-          { status: 404 }
+          { status: 404 },
         );
-      })
+      }),
     );
 
     render(<WrappedPage />);

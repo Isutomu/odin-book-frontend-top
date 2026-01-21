@@ -4,7 +4,7 @@ import { AnimatePresence } from "motion/react";
 import { FiAlertOctagon } from "react-icons/fi";
 
 // Local Modules
-import styles from "./index.module.css";
+import styles from "./Error.module.css";
 
 // Props Type
 type ErrorProps = {

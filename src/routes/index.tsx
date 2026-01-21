@@ -3,15 +3,15 @@ import { createBrowserRouter } from "react-router-dom";
 
 // Local Modules
 import { App } from "./App";
-import Boilerplate from "../pages/Boilerplate/Boilerplate";
+import { Login } from "../pages/Login/Login";
 
 export const routes = createBrowserRouter(
   [
     {
       path: "/",
       element: <App />,
-      children: [{ path: "/app", element: <Boilerplate /> }],
+      children: [{ path: "/login", element: <Login /> }],
     },
   ],
-  { basename: import.meta.env.BASE_URL }
+  { basename: import.meta.env.BASE_URL },
 );
