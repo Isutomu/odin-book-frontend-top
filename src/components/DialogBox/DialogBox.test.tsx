@@ -7,7 +7,7 @@ import { render, screen } from "@testing-library/react";
 import { DialogBox } from "./DialogBox";
 
 // Tests
-// Dragging the window will be tested on E2E
+// E2E: Dragging the window
 describe("DialogBox renders properly", () => {
   const title = "Title";
   const Children = <strong>lol</strong>;
