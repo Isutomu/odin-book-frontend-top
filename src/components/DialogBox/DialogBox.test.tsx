@@ -4,15 +4,15 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 // Local Modules
-import { WindowWrapper } from "./WindowWrapper";
+import { DialogBox } from "./DialogBox";
 
 // Tests
 // Dragging the window will be tested on E2E
-describe("WindowWrapper renders properly", () => {
+describe("DialogBox renders properly", () => {
   const title = "Title";
   const Children = <strong>lol</strong>;
   const WrappedComponent = () => {
-    return <WindowWrapper title={title}>{Children}</WindowWrapper>;
+    return <DialogBox title={title}>{Children}</DialogBox>;
   };
 
   it("renders the component", () => {

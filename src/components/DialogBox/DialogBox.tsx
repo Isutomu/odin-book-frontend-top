@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 // Local Modules
-import styles from "./WindowWrapper.module.css";
+import styles from "./DialogBox.module.css";
 import { Button } from "../Button/Button";
 
 // Props Type
@@ -16,7 +16,7 @@ type WindowWrapperProps = {
  * It gives them a border that seems like a program window.
  * It also allows the user to drag it by click and holding the header.
  */
-export const WindowWrapper = ({ children, title }: WindowWrapperProps) => {
+export const DialogBox = ({ children, title }: WindowWrapperProps) => {
   type Position = {
     top: number;
     left: number;
