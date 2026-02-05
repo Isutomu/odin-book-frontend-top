@@ -5,10 +5,11 @@ import { FiAlertOctagon } from "react-icons/fi";
 
 // Local Modules
 import styles from "./Error.module.css";
+import type { ErrorType } from "../../types/ErrorType";
 
 // Props Type
 type ErrorProps = {
-  error: string | null;
+  error: ErrorType;
 };
 
 // Exportable Component
