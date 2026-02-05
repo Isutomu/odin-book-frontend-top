@@ -5,7 +5,7 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 // Local Modules
-import { Button } from "../Button";
+import { Button } from "./Button";
 
 // Tests
 describe("Button normal responses", () => {
