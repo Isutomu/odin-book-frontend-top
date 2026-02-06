@@ -7,7 +7,7 @@ import styles from "./Button.module.css";
 // Props Type
 // "name" and "children" are not really optional, it's just that it's one OR the other.
 type ButtonProps = {
-  onClick: () => void;
+  onClick: (...args: any) => void;
   name?: string;
   children?: ReactElement;
   type?: "button" | "reset" | "submit";
