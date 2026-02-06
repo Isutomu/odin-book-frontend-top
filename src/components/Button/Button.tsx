@@ -1,5 +1,5 @@
 // 3rd Party Modules
-import type React from "react";
+import { type ReactElement } from "react";
 
 // Local Modules
 import styles from "./Button.module.css";
@@ -9,7 +9,7 @@ import styles from "./Button.module.css";
 type ButtonProps = {
   onClick: () => void;
   name?: string;
-  children?: React.ReactElement;
+  children?: ReactElement;
   type?: "button" | "reset" | "submit";
   padding?: string;
   size?: "big" | "small";
