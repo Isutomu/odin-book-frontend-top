@@ -8,7 +8,8 @@
     "build": "NODE_ENV='production' && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:browser": "vitest --config=vitest.browser.config.ts --ui"
+    "test:browser": "vitest --config=vitest.browser.config.ts --ui",
+    "generateAPI": "dotenv -e .env.development -- orval"
   },
   "dependencies": {
     "@tanstack/eslint-plugin-query": "^5.91.4",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@faker-js/faker": "10.4.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
@@ -32,6 +34,7 @@
     "@vitejs/plugin-react": "^5.1.1",
     "@vitest/browser-playwright": "^4.0.16",
     "@vitest/ui": "^4.0.16",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9.39.1",
     "eslint-plugin-react-dom": "^2.5.1",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -39,6 +42,7 @@
     "eslint-plugin-react-x": "^2.5.1",
     "globals": "^16.5.0",
     "msw": "^2.12.7",
+    "orval": "^8.6.2",
     "prettier": "^3.7.4",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
