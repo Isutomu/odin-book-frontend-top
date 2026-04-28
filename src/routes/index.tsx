@@ -4,13 +4,23 @@ import { createBrowserRouter } from "react-router-dom";
 // Local Modules
 import { App } from "./App";
 import { Login } from "../pages/Login/Login";
+import { UnprotectedRoute } from "./UnprotectedRoute";
 
 export const routes = createBrowserRouter(
   [
     {
       path: "/",
       element: <App />,
-      children: [{ path: "/login", element: <Login /> }],
+      children: [
+        {
+          element: <UnprotectedRoute />,
+          children: [{ path: "/login", element: <Login /> }],
+        },
+      ],
+    },
+    {
+      element: <div></div>,
+      children: [{ path: "/app", element: <div></div> }],
     },
   ],
   { basename: import.meta.env.BASE_URL },
