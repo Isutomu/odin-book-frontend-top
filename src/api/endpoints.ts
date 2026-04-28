@@ -42,6 +42,35 @@ import type {
 /**
  * @summary Signup an user
  */
+export type signupResponse201 = {
+  data: Signup201
+  status: 201
+}
+
+export type signupResponse409 = {
+  data: Signup409
+  status: 409
+}
+
+export type signupResponse422 = {
+  data: Schema
+  status: 422
+}
+
+export type signupResponse500 = {
+  data: Schema
+  status: 500
+}
+
+export type signupResponseSuccess = (signupResponse201) & {
+  headers: Headers;
+};
+export type signupResponseError = (signupResponse409 | signupResponse422 | signupResponse500) & {
+  headers: Headers;
+};
+
+export type signupResponse = (signupResponseSuccess | signupResponseError)
+
 export const getSignupUrl = () => {
 
 
@@ -50,7 +79,7 @@ export const getSignupUrl = () => {
   return `http://localhost:8010/proxy/auth/signup`
 }
 
-export const signup = async (signupBody: SignupBody, options?: RequestInit): Promise<Signup201> => {
+export const signup = async (signupBody: SignupBody, options?: RequestInit): Promise<signupResponse> => {
 
   const res = await fetch(getSignupUrl(),
   {
@@ -64,8 +93,8 @@ export const signup = async (signupBody: SignupBody, options?: RequestInit): Pro
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: Signup201 = body ? JSON.parse(body) : {}
-  return data
+  const data: signupResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as signupResponse
 }
 
 
@@ -119,6 +148,30 @@ export const useSignup = <TError = Signup409 | Schema,
 /**
  * @summary Login an user
  */
+export type loginResponse200 = {
+  data: Login200
+  status: 200
+}
+
+export type loginResponse422 = {
+  data: N422
+  status: 422
+}
+
+export type loginResponse500 = {
+  data: N500
+  status: 500
+}
+
+export type loginResponseSuccess = (loginResponse200) & {
+  headers: Headers;
+};
+export type loginResponseError = (loginResponse422 | loginResponse500) & {
+  headers: Headers;
+};
+
+export type loginResponse = (loginResponseSuccess | loginResponseError)
+
 export const getLoginUrl = () => {
 
 
@@ -127,7 +180,7 @@ export const getLoginUrl = () => {
   return `http://localhost:8010/proxy/auth/login`
 }
 
-export const login = async (loginBody: LoginBody, options?: RequestInit): Promise<Login200> => {
+export const login = async (loginBody: LoginBody, options?: RequestInit): Promise<loginResponse> => {
 
   const res = await fetch(getLoginUrl(),
   {
@@ -141,8 +194,8 @@ export const login = async (loginBody: LoginBody, options?: RequestInit): Promis
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: Login200 = body ? JSON.parse(body) : {}
-  return data
+  const data: loginResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as loginResponse
 }
 
 
@@ -196,6 +249,30 @@ export const useLogin = <TError = N422 | N500,
 /**
  * @summary Verify is user session is valid
  */
+export type verifySessionResponse200 = {
+  data: VerifySession200
+  status: 200
+}
+
+export type verifySessionResponse401 = {
+  data: Schema
+  status: 401
+}
+
+export type verifySessionResponse500 = {
+  data: N500
+  status: 500
+}
+
+export type verifySessionResponseSuccess = (verifySessionResponse200) & {
+  headers: Headers;
+};
+export type verifySessionResponseError = (verifySessionResponse401 | verifySessionResponse500) & {
+  headers: Headers;
+};
+
+export type verifySessionResponse = (verifySessionResponseSuccess | verifySessionResponseError)
+
 export const getVerifySessionUrl = () => {
 
 
@@ -204,7 +281,7 @@ export const getVerifySessionUrl = () => {
   return `http://localhost:8010/proxy/auth/verify-session`
 }
 
-export const verifySession = async ( options?: RequestInit): Promise<VerifySession200> => {
+export const verifySession = async ( options?: RequestInit): Promise<verifySessionResponse> => {
 
   const res = await fetch(getVerifySessionUrl(),
   {
@@ -217,8 +294,8 @@ export const verifySession = async ( options?: RequestInit): Promise<VerifySessi
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: VerifySession200 = body ? JSON.parse(body) : {}
-  return data
+  const data: verifySessionResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as verifySessionResponse
 }
 
 

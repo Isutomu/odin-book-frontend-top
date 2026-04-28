@@ -11,7 +11,7 @@ export default defineConfig({
       mock: true,
       override: {
         fetch: {
-          includeHttpResponseReturnType: false,
+          includeHttpResponseReturnType: true,
         },
       },
     },
