@@ -1,0 +1,8 @@
+.link {
+  text-decoration: underline;
+}
+
+.link:hover {
+  transition: color var(--transition-time-normal) ease-in;
+  color: var(--accent);
+}
