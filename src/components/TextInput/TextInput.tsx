@@ -38,7 +38,7 @@ const ErrorMessage = ({ showError, error }: ErrorMessageProps) => {
 
 // MAIN COMPONENT
 type TextInputProps = {
-  label?: string;
+  label: string;
   placeholder?: string;
   value: string;
   setValue: (value: string) => void;
@@ -54,7 +54,7 @@ type TextInputProps = {
   withOcclusion?: boolean;
 };
 export const TextInput = ({
-  label = "",
+  label,
   placeholder = "",
   value,
   setValue,
@@ -91,17 +91,18 @@ export const TextInput = ({
     }
   };
 
+  const id = styles.input + label;
   return (
     <div className={styles.div} style={{ width: size }}>
-      <label className={styles.label} htmlFor={styles.input}>
+      <label className={styles.label} htmlFor={id}>
         {label}
       </label>
       <div className={styles.inputWrapper}>
         <input
           className={`${styles.input} ${withOcclusion ? styles.inputWithOclusion : ""}`}
           type={show ? "text" : "password"}
-          id={styles.input}
-          name={styles.input}
+          id={id}
+          name={id}
           value={value}
           onChange={(e) => {
             validateInput(e.target.value);
