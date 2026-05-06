@@ -4,7 +4,7 @@ import React, { createContext, useState } from "react";
 import { Navigate, useLocation, useOutlet } from "react-router-dom";
 
 // Local Modules
-import { Error } from "../components/Error";
+import { Error } from "../components/Error/Error";
 
 // Exportable Constants
 type ErrorContextValue = {
@@ -21,7 +21,7 @@ export const App = () => {
 
   const simplifiedLocation = location.pathname.split("/")[1];
   if (simplifiedLocation === "") {
-    return <Navigate to="/app" />;
+    return <Navigate to="/login" />;
   }
 
   return (

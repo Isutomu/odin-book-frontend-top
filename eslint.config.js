@@ -6,8 +6,10 @@ import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 import reactX from "eslint-plugin-react-x";
 import reactDom from "eslint-plugin-react-dom";
+import plugin from "@tanstack/eslint-plugin-query";
 
 export default defineConfig([
+  ...plugin.configs["flat/recommended"],
   globalIgnores(["dist"]),
   {
     files: ["**/*.{ts,tsx}"],

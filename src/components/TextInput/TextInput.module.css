@@ -1,0 +1,58 @@
+/* EyeIcon */
+.eye {
+  border: none;
+
+  position: absolute;
+  bottom: 18%;
+  right: var(--spacing-xs);
+  color: var(--faded);
+}
+
+/* ErrorMessage */
+.error {
+  width: fit-content;
+  background-color: var(--error);
+
+  font-size: var(--text-base);
+
+  margin: var(--padding-xs) var(--padding-xs);
+  padding: 0 var(--padding-xs);
+
+  overflow: hidden;
+}
+
+/* MAIN COMPONENT */
+.div {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: var(--text-2xl);
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  border-width: var(--border-width-sm);
+  border-style: solid;
+
+  padding: 0 var(--padding-xs);
+
+  font-size: var(--text-xl);
+  color: var(--faded);
+
+  background-color: white;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.inputWithOclusion {
+  padding-right: calc(1.5rem + 2 * var(--padding-xs));
+}
