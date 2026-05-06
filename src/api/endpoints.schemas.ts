@@ -6,6 +6,7 @@
  */
 export type SignupBody = {
   username: string;
+  email: string;
   password: string;
 };
 
