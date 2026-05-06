@@ -1,68 +1,100 @@
 // 3rd Party Modules
-import { useState } from "react";
-import viteLogo from "/vite.svg";
+import { useContext, useEffect, useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Local Modules
-import "./Login.css";
-import { useQuery } from "@tanstack/react-query";
-import reactLogo from "/react.svg";
+import styles from "./Login.module.css";
+import { ErrorContext } from "../../routes/App";
+import { UsernameInput } from "../../wrappers/UsernameInput";
+import { PasswordInput } from "../../wrappers/PasswordInput";
+import { DialogBox } from "../../components/DialogBox/DialogBox";
+import { Button } from "../../components/Button/Button";
+import { useLogin } from "../../api/endpoints";
+import { Loading } from "../../components/Loading/Loading";
+import { Anchor } from "../../components/Anchor/Anchor";
 
 // Exportable Component
 export const Login = () => {
-  const [count, setCount] = useState<number>(0);
+  const errorContext = useContext(ErrorContext);
+  const [username, setUsername] = useState<string>("");
+  const [errorUsername, setErrorUsername] = useState<string | null>(null);
+  const [password, setPassword] = useState<string>("");
+  const [errorPassword, setErrorPassword] = useState<string | null>(null);
+  const [showError, setShowError] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  const initialQuery = useQuery({
-    queryKey: ["postInitial"],
-    queryFn: async () => {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts/1",
-      );
-      if (!response.ok) {
-        throw new Error("Failed to do the initial fetch");
+  const loginMutation = useLogin({ fetch: { credentials: "include" } });
+
+  useEffect(() => {
+    if (loginMutation.isError) {
+      errorContext?.setError("Unknown server error");
+      return;
+    }
+
+    if (loginMutation.isSuccess) {
+      if (loginMutation.data?.status === 200) {
+        navigate("/app");
+      } else {
+        errorContext?.setError("Invalid username and/or password");
       }
-      return response.json();
-    },
-  });
-  const conditionalQuery = useQuery({
-    queryKey: ["postConditional"],
-    queryFn: () =>
-      fetch("https://jsonplaceholder.typicode.com/posts/2").then((res) =>
-        res.json(),
-      ),
-    enabled: false,
-  });
+    }
+  }, [loginMutation.isSuccess]);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    // Check for input errors
+    if (!showError) {
+      setShowError(true);
+    }
+    if (errorUsername || errorPassword) {
+      errorContext?.setError(
+        errorUsername && errorPassword
+          ? "Invalid username and password"
+          : errorUsername
+            ? "Invalid username"
+            : "Invalid password",
+      );
+      return;
+    }
+
+    loginMutation.mutate({ data: { username, password } });
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button onClick={() => conditionalQuery.refetch()}>download</button>
-        {conditionalQuery.isPending ? null : (
-          <p>{conditionalQuery.data.userId}</p>
-        )}
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      {initialQuery.isPending ? (
-        <p>Failed fetch!</p>
-      ) : (
-        <p>{initialQuery.data.userId}</p>
-      )}
-    </>
+    <DialogBox title="Login">
+      <main className={styles.main}>
+        {loginMutation.isPending && <Loading loading={true} />}
+        <form
+          className={styles.form}
+          onSubmit={handleSubmit}
+          aria-label="Login user"
+        >
+          <UsernameInput
+            value={username}
+            setValue={setUsername}
+            error={errorUsername}
+            setError={setErrorUsername}
+            showError={showError}
+          />
+          <PasswordInput
+            value={password}
+            setValue={setPassword}
+            error={errorPassword}
+            setError={setErrorPassword}
+            showError={showError}
+          />
+          <div className={styles.linkDiv}>
+            <Anchor name="sign up" destinationPath="/signup" />
+            <Anchor
+              name="forgot password"
+              destinationPath="/send-reset-password-link"
+            />
+          </div>
+          <div className={styles.buttonsDiv}>
+            <Button name="Login" type="submit" onClick={handleSubmit} />
+          </div>
+        </form>
+      </main>
+    </DialogBox>
   );
 };
