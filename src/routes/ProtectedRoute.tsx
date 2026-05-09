@@ -1,8 +1,11 @@
 // 3rd Party Modules
 import { Navigate, Outlet } from "react-router-dom";
 import { createContext } from "react";
+
+// Local Modules
 import { useVerifySession } from "../api/endpoints";
 import { Loading } from "../components/Loading/Loading";
+import { MainPage } from "../pages/MainPage/MainPage";
 
 // Exportable Constants
 export const UserContext = createContext(null);
@@ -16,7 +19,9 @@ export const ProtectedRoute = () => {
       <Loading loading={verifySession.isPending} />
       {!verifySession.isPending &&
         (verifySession.data?.status === 200 ? (
-          <Outlet />
+          <MainPage>
+            <Outlet />
+          </MainPage>
         ) : (
           <Navigate to={"/login"} />
         ))}
