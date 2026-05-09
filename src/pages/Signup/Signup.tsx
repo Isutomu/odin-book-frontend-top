@@ -61,43 +61,45 @@ export const Signup = () => {
   };
 
   return (
-    <DialogBox title="Sign up">
-      <main className={styles.main}>
-        {signupMutation.isPending && <Loading loading={true} />}
-        <form
-          className={styles.form}
-          onSubmit={handleSubmit}
-          aria-label="Sign up user"
-        >
-          <UsernameInput
-            value={username}
-            setValue={setUsername}
-            error={errorUsername}
-            setError={setErrorUsername}
-            showError={showError}
-          />
-          <EmailInput
-            value={email}
-            setValue={setEmail}
-            error={errorEmail}
-            setError={setErrorEmail}
-            showError={showError}
-          />
-          <PasswordInput
-            value={password}
-            setValue={setPassword}
-            error={errorPassword}
-            setError={setErrorPassword}
-            showError={showError}
-          />
-          <div className={styles.linkDiv}>
-            <Anchor name="back to login" destinationPath="/login" />
-          </div>
-          <div className={styles.buttonsDiv}>
-            <Button name="Sign up" type="submit" onClick={handleSubmit} />
-          </div>
-        </form>
-      </main>
-    </DialogBox>
+    <div className={styles.body}>
+      <DialogBox title="Sign up">
+        <main className={styles.main}>
+          {signupMutation.isPending && <Loading loading={true} />}
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit}
+            aria-label="Sign up user"
+          >
+            <UsernameInput
+              value={username}
+              setValue={setUsername}
+              error={errorUsername}
+              setError={setErrorUsername}
+              showError={showError}
+            />
+            <EmailInput
+              value={email}
+              setValue={setEmail}
+              error={errorEmail}
+              setError={setErrorEmail}
+              showError={showError}
+            />
+            <PasswordInput
+              value={password}
+              setValue={setPassword}
+              error={errorPassword}
+              setError={setErrorPassword}
+              showError={showError}
+            />
+            <div className={styles.linkDiv}>
+              <Anchor name="back to login" destinationPath="/login" />
+            </div>
+            <div className={styles.buttonsDiv}>
+              <Button name="Sign up" type="submit" onClick={handleSubmit} />
+            </div>
+          </form>
+        </main>
+      </DialogBox>
+    </div>
   );
 };

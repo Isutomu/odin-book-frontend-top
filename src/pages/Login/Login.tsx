@@ -61,40 +61,42 @@ export const Login = () => {
   };
 
   return (
-    <DialogBox title="Login">
-      <main className={styles.main}>
-        {loginMutation.isPending && <Loading loading={true} />}
-        <form
-          className={styles.form}
-          onSubmit={handleSubmit}
-          aria-label="Login user"
-        >
-          <UsernameInput
-            value={username}
-            setValue={setUsername}
-            error={errorUsername}
-            setError={setErrorUsername}
-            showError={showError}
-          />
-          <PasswordInput
-            value={password}
-            setValue={setPassword}
-            error={errorPassword}
-            setError={setErrorPassword}
-            showError={showError}
-          />
-          <div className={styles.linkDiv}>
-            <Anchor name="sign up" destinationPath="/signup" />
-            <Anchor
-              name="forgot password"
-              destinationPath="/send-reset-password-link"
+    <div className={styles.body}>
+      <DialogBox title="Login">
+        <main className={styles.main}>
+          {loginMutation.isPending && <Loading loading={true} />}
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit}
+            aria-label="Login user"
+          >
+            <UsernameInput
+              value={username}
+              setValue={setUsername}
+              error={errorUsername}
+              setError={setErrorUsername}
+              showError={showError}
             />
-          </div>
-          <div className={styles.buttonsDiv}>
-            <Button name="Login" type="submit" onClick={handleSubmit} />
-          </div>
-        </form>
-      </main>
-    </DialogBox>
+            <PasswordInput
+              value={password}
+              setValue={setPassword}
+              error={errorPassword}
+              setError={setErrorPassword}
+              showError={showError}
+            />
+            <div className={styles.linkDiv}>
+              <Anchor name="sign up" destinationPath="/signup" />
+              <Anchor
+                name="forgot password"
+                destinationPath="/send-reset-password-link"
+              />
+            </div>
+            <div className={styles.buttonsDiv}>
+              <Button name="Login" type="submit" onClick={handleSubmit} />
+            </div>
+          </form>
+        </main>
+      </DialogBox>
+    </div>
   );
 };
