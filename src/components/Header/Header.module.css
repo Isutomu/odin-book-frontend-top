@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  flex-grow: 1;
+
+  width: 100%;
+  height: 80px;
+  background-image: url("../../assets/donut.png");
+  background-size: 150px 100px;
+  background-position: center;
+}
