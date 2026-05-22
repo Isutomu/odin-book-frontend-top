@@ -3,10 +3,11 @@ import { defineConfig } from "orval";
 export default defineConfig({
   "odin-book-api": {
     output: {
-      mode: "split",
+      mode: "tags-split",
       httpClient: "fetch",
       client: "react-query",
       target: "./src/api/endpoints.ts",
+      schemas: "./src/api/models",
       baseUrl: process.env.API_URL,
       mock: true,
       override: {

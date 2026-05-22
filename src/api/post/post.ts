@@ -25,360 +25,29 @@ import type {
 
 import type {
   CreatePost201,
+  CreatePost422,
+  CreatePost500,
   CreatePostBody,
+  DeletePost404,
+  DeletePost500,
   GetAllPosts200,
+  GetAllPosts404,
+  GetAllPosts500,
   GetAllPostsPagination200,
+  GetAllPostsPagination404,
+  GetAllPostsPagination500,
   GetFeed200,
+  GetFeed500,
   GetFeedPagination200,
+  GetFeedPagination404,
+  GetFeedPagination500,
   GetPost200,
-  Login200,
-  LoginBody,
-  N404,
-  N422,
-  N500,
-  Schema,
-  Signup201,
-  Signup409,
-  SignupBody,
-  UpdatePostBody,
-  VerifySession200
-} from './models';
-
-
-
-
-
-/**
- * @summary Signup an user
- */
-export type signupResponse201 = {
-  data: Signup201
-  status: 201
-}
-
-export type signupResponse409 = {
-  data: Signup409
-  status: 409
-}
-
-export type signupResponse422 = {
-  data: Schema
-  status: 422
-}
-
-export type signupResponse500 = {
-  data: Schema
-  status: 500
-}
-
-export type signupResponseSuccess = (signupResponse201) & {
-  headers: Headers;
-};
-export type signupResponseError = (signupResponse409 | signupResponse422 | signupResponse500) & {
-  headers: Headers;
-};
-
-export type signupResponse = (signupResponseSuccess | signupResponseError)
-
-export const getSignupUrl = () => {
-
-
-
-
-  return `http://localhost:8010/proxy/auth/signup`
-}
-
-export const signup = async (signupBody: SignupBody, options?: RequestInit): Promise<signupResponse> => {
-
-  const res = await fetch(getSignupUrl(),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      signupBody,)
-  }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: signupResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as signupResponse
-}
-
-
-
-
-export const getSignupMutationOptions = <TError = Signup409 | Schema,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof signup>>, TError,{data: SignupBody}, TContext>, fetch?: RequestInit}
-): UseMutationOptions<Awaited<ReturnType<typeof signup>>, TError,{data: SignupBody}, TContext> => {
-
-const mutationKey = ['signup'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof signup>>, {data: SignupBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  signup(data,fetchOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type SignupMutationResult = NonNullable<Awaited<ReturnType<typeof signup>>>
-    export type SignupMutationBody = SignupBody
-    export type SignupMutationError = Signup409 | Schema
-
-    /**
- * @summary Signup an user
- */
-export const useSignup = <TError = Signup409 | Schema,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof signup>>, TError,{data: SignupBody}, TContext>, fetch?: RequestInit}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof signup>>,
-        TError,
-        {data: SignupBody},
-        TContext
-      > => {
-      return useMutation(getSignupMutationOptions(options), queryClient);
-    }
-
-/**
- * @summary Login an user
- */
-export type loginResponse200 = {
-  data: Login200
-  status: 200
-}
-
-export type loginResponse422 = {
-  data: N422
-  status: 422
-}
-
-export type loginResponse500 = {
-  data: N500
-  status: 500
-}
-
-export type loginResponseSuccess = (loginResponse200) & {
-  headers: Headers;
-};
-export type loginResponseError = (loginResponse422 | loginResponse500) & {
-  headers: Headers;
-};
-
-export type loginResponse = (loginResponseSuccess | loginResponseError)
-
-export const getLoginUrl = () => {
-
-
-
-
-  return `http://localhost:8010/proxy/auth/login`
-}
-
-export const login = async (loginBody: LoginBody, options?: RequestInit): Promise<loginResponse> => {
-
-  const res = await fetch(getLoginUrl(),
-  {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...options?.headers },
-    body: JSON.stringify(
-      loginBody,)
-  }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: loginResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as loginResponse
-}
-
-
-
-
-export const getLoginMutationOptions = <TError = N422 | N500,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginBody}, TContext>, fetch?: RequestInit}
-): UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginBody}, TContext> => {
-
-const mutationKey = ['login'];
-const {mutation: mutationOptions, fetch: fetchOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, fetch: undefined};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof login>>, {data: LoginBody}> = (props) => {
-          const {data} = props ?? {};
-
-          return  login(data,fetchOptions)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type LoginMutationResult = NonNullable<Awaited<ReturnType<typeof login>>>
-    export type LoginMutationBody = LoginBody
-    export type LoginMutationError = N422 | N500
-
-    /**
- * @summary Login an user
- */
-export const useLogin = <TError = N422 | N500,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof login>>, TError,{data: LoginBody}, TContext>, fetch?: RequestInit}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof login>>,
-        TError,
-        {data: LoginBody},
-        TContext
-      > => {
-      return useMutation(getLoginMutationOptions(options), queryClient);
-    }
-
-/**
- * @summary Verify is user session is valid
- */
-export type verifySessionResponse200 = {
-  data: VerifySession200
-  status: 200
-}
-
-export type verifySessionResponse401 = {
-  data: Schema
-  status: 401
-}
-
-export type verifySessionResponse500 = {
-  data: N500
-  status: 500
-}
-
-export type verifySessionResponseSuccess = (verifySessionResponse200) & {
-  headers: Headers;
-};
-export type verifySessionResponseError = (verifySessionResponse401 | verifySessionResponse500) & {
-  headers: Headers;
-};
-
-export type verifySessionResponse = (verifySessionResponseSuccess | verifySessionResponseError)
-
-export const getVerifySessionUrl = () => {
-
-
-
-
-  return `http://localhost:8010/proxy/auth/verify-session`
-}
-
-export const verifySession = async ( options?: RequestInit): Promise<verifySessionResponse> => {
-
-  const res = await fetch(getVerifySessionUrl(),
-  {
-    ...options,
-    method: 'GET'
-
-
-  }
-)
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: verifySessionResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as verifySessionResponse
-}
-
-
-
-
-
-export const getVerifySessionQueryKey = () => {
-    return [
-    `http://localhost:8010/proxy/auth/verify-session`
-    ] as const;
-    }
-
-
-export const getVerifySessionQueryOptions = <TData = Awaited<ReturnType<typeof verifySession>>, TError = Schema | N500>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof verifySession>>, TError, TData>>, fetch?: RequestInit}
-) => {
-
-const {query: queryOptions, fetch: fetchOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getVerifySessionQueryKey();
-
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof verifySession>>> = ({ signal }) => verifySession({ signal, ...fetchOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof verifySession>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type VerifySessionQueryResult = NonNullable<Awaited<ReturnType<typeof verifySession>>>
-export type VerifySessionQueryError = Schema | N500
-
-
-export function useVerifySession<TData = Awaited<ReturnType<typeof verifySession>>, TError = Schema | N500>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof verifySession>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof verifySession>>,
-          TError,
-          Awaited<ReturnType<typeof verifySession>>
-        > , 'initialData'
-      >, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useVerifySession<TData = Awaited<ReturnType<typeof verifySession>>, TError = Schema | N500>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof verifySession>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof verifySession>>,
-          TError,
-          Awaited<ReturnType<typeof verifySession>>
-        > , 'initialData'
-      >, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useVerifySession<TData = Awaited<ReturnType<typeof verifySession>>, TError = Schema | N500>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof verifySession>>, TError, TData>>, fetch?: RequestInit}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-/**
- * @summary Verify is user session is valid
- */
-
-export function useVerifySession<TData = Awaited<ReturnType<typeof verifySession>>, TError = Schema | N500>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof verifySession>>, TError, TData>>, fetch?: RequestInit}
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getVerifySessionQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return { ...query, queryKey: queryOptions.queryKey };
-}
+  GetPost404,
+  GetPost500,
+  UpdatePost404,
+  UpdatePost500,
+  UpdatePostBody
+} from '../models';
 
 
 
@@ -393,12 +62,12 @@ export type createPostResponse201 = {
 }
 
 export type createPostResponse422 = {
-  data: N422
+  data: CreatePost422
   status: 422
 }
 
 export type createPostResponse500 = {
-  data: N500
+  data: CreatePost500
   status: 500
 }
 
@@ -440,7 +109,7 @@ export const createPost = async (createPostBody: CreatePostBody, options?: Reque
 
 
 
-export const getCreatePostMutationOptions = <TError = N422 | N500,
+export const getCreatePostMutationOptions = <TError = CreatePost422 | CreatePost500,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPost>>, TError,{data: CreatePostBody}, TContext>, fetch?: RequestInit}
 ): UseMutationOptions<Awaited<ReturnType<typeof createPost>>, TError,{data: CreatePostBody}, TContext> => {
 
@@ -469,12 +138,12 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
 
     export type CreatePostMutationResult = NonNullable<Awaited<ReturnType<typeof createPost>>>
     export type CreatePostMutationBody = CreatePostBody
-    export type CreatePostMutationError = N422 | N500
+    export type CreatePostMutationError = CreatePost422 | CreatePost500
 
     /**
  * @summary Create a post
  */
-export const useCreatePost = <TError = N422 | N500,
+export const useCreatePost = <TError = CreatePost422 | CreatePost500,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPost>>, TError,{data: CreatePostBody}, TContext>, fetch?: RequestInit}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof createPost>>,
@@ -484,8 +153,7 @@ export const useCreatePost = <TError = N422 | N500,
       > => {
       return useMutation(getCreatePostMutationOptions(options), queryClient);
     }
-
-/**
+    /**
  * @summary Delete a post
  */
 export type deletePostResponse204 = {
@@ -494,12 +162,12 @@ export type deletePostResponse204 = {
 }
 
 export type deletePostResponse404 = {
-  data: Schema
+  data: DeletePost404
   status: 404
 }
 
 export type deletePostResponse500 = {
-  data: N500
+  data: DeletePost500
   status: 500
 }
 
@@ -540,7 +208,7 @@ export const deletePost = async (postId: string, options?: RequestInit): Promise
 
 
 
-export const getDeletePostMutationOptions = <TError = Schema | N500,
+export const getDeletePostMutationOptions = <TError = DeletePost404 | DeletePost500,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePost>>, TError,{postId: string}, TContext>, fetch?: RequestInit}
 ): UseMutationOptions<Awaited<ReturnType<typeof deletePost>>, TError,{postId: string}, TContext> => {
 
@@ -569,12 +237,12 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
 
     export type DeletePostMutationResult = NonNullable<Awaited<ReturnType<typeof deletePost>>>
 
-    export type DeletePostMutationError = Schema | N500
+    export type DeletePostMutationError = DeletePost404 | DeletePost500
 
     /**
  * @summary Delete a post
  */
-export const useDeletePost = <TError = Schema | N500,
+export const useDeletePost = <TError = DeletePost404 | DeletePost500,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePost>>, TError,{postId: string}, TContext>, fetch?: RequestInit}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deletePost>>,
@@ -584,8 +252,7 @@ export const useDeletePost = <TError = Schema | N500,
       > => {
       return useMutation(getDeletePostMutationOptions(options), queryClient);
     }
-
-/**
+    /**
  * @summary Update a post content
  */
 export type updatePostResponse204 = {
@@ -594,12 +261,12 @@ export type updatePostResponse204 = {
 }
 
 export type updatePostResponse404 = {
-  data: N404
+  data: UpdatePost404
   status: 404
 }
 
 export type updatePostResponse500 = {
-  data: N500
+  data: UpdatePost500
   status: 500
 }
 
@@ -642,7 +309,7 @@ export const updatePost = async (postId: string,
 
 
 
-export const getUpdatePostMutationOptions = <TError = N404 | N500,
+export const getUpdatePostMutationOptions = <TError = UpdatePost404 | UpdatePost500,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePost>>, TError,{postId: string;data: UpdatePostBody}, TContext>, fetch?: RequestInit}
 ): UseMutationOptions<Awaited<ReturnType<typeof updatePost>>, TError,{postId: string;data: UpdatePostBody}, TContext> => {
 
@@ -671,12 +338,12 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
 
     export type UpdatePostMutationResult = NonNullable<Awaited<ReturnType<typeof updatePost>>>
     export type UpdatePostMutationBody = UpdatePostBody
-    export type UpdatePostMutationError = N404 | N500
+    export type UpdatePostMutationError = UpdatePost404 | UpdatePost500
 
     /**
  * @summary Update a post content
  */
-export const useUpdatePost = <TError = N404 | N500,
+export const useUpdatePost = <TError = UpdatePost404 | UpdatePost500,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePost>>, TError,{postId: string;data: UpdatePostBody}, TContext>, fetch?: RequestInit}
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updatePost>>,
@@ -686,8 +353,7 @@ export const useUpdatePost = <TError = N404 | N500,
       > => {
       return useMutation(getUpdatePostMutationOptions(options), queryClient);
     }
-
-/**
+    /**
  * @summary Get an user feed
  */
 export type getFeedResponse200 = {
@@ -696,7 +362,7 @@ export type getFeedResponse200 = {
 }
 
 export type getFeedResponse500 = {
-  data: N500
+  data: GetFeed500
   status: 500
 }
 
@@ -745,7 +411,7 @@ export const getGetFeedQueryKey = () => {
     }
 
 
-export const getGetFeedQueryOptions = <TData = Awaited<ReturnType<typeof getFeed>>, TError = N500>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeed>>, TError, TData>>, fetch?: RequestInit}
+export const getGetFeedQueryOptions = <TData = Awaited<ReturnType<typeof getFeed>>, TError = GetFeed500>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeed>>, TError, TData>>, fetch?: RequestInit}
 ) => {
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
@@ -764,10 +430,10 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 }
 
 export type GetFeedQueryResult = NonNullable<Awaited<ReturnType<typeof getFeed>>>
-export type GetFeedQueryError = N500
+export type GetFeedQueryError = GetFeed500
 
 
-export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError = N500>(
+export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError = GetFeed500>(
   options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeed>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getFeed>>,
@@ -777,7 +443,7 @@ export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError =
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError = N500>(
+export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError = GetFeed500>(
   options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeed>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getFeed>>,
@@ -787,7 +453,7 @@ export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError =
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError = N500>(
+export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError = GetFeed500>(
   options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeed>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
@@ -795,7 +461,7 @@ export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError =
  * @summary Get an user feed
  */
 
-export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError = N500>(
+export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError = GetFeed500>(
   options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeed>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
@@ -810,7 +476,6 @@ export function useGetFeed<TData = Awaited<ReturnType<typeof getFeed>>, TError =
 
 
 
-
 /**
  * @summary Get more posts from an user feed
  */
@@ -820,12 +485,12 @@ export type getFeedPaginationResponse200 = {
 }
 
 export type getFeedPaginationResponse404 = {
-  data: N404
+  data: GetFeedPagination404
   status: 404
 }
 
 export type getFeedPaginationResponse500 = {
-  data: N500
+  data: GetFeedPagination500
   status: 500
 }
 
@@ -874,7 +539,7 @@ export const getGetFeedPaginationQueryKey = (lastPostId: string,) => {
     }
 
 
-export const getGetFeedPaginationQueryOptions = <TData = Awaited<ReturnType<typeof getFeedPagination>>, TError = N404 | N500>(lastPostId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeedPagination>>, TError, TData>>, fetch?: RequestInit}
+export const getGetFeedPaginationQueryOptions = <TData = Awaited<ReturnType<typeof getFeedPagination>>, TError = GetFeedPagination404 | GetFeedPagination500>(lastPostId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeedPagination>>, TError, TData>>, fetch?: RequestInit}
 ) => {
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
@@ -893,10 +558,10 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 }
 
 export type GetFeedPaginationQueryResult = NonNullable<Awaited<ReturnType<typeof getFeedPagination>>>
-export type GetFeedPaginationQueryError = N404 | N500
+export type GetFeedPaginationQueryError = GetFeedPagination404 | GetFeedPagination500
 
 
-export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPagination>>, TError = N404 | N500>(
+export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPagination>>, TError = GetFeedPagination404 | GetFeedPagination500>(
  lastPostId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeedPagination>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getFeedPagination>>,
@@ -906,7 +571,7 @@ export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPa
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPagination>>, TError = N404 | N500>(
+export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPagination>>, TError = GetFeedPagination404 | GetFeedPagination500>(
  lastPostId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeedPagination>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getFeedPagination>>,
@@ -916,7 +581,7 @@ export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPa
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPagination>>, TError = N404 | N500>(
+export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPagination>>, TError = GetFeedPagination404 | GetFeedPagination500>(
  lastPostId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeedPagination>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
@@ -924,7 +589,7 @@ export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPa
  * @summary Get more posts from an user feed
  */
 
-export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPagination>>, TError = N404 | N500>(
+export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPagination>>, TError = GetFeedPagination404 | GetFeedPagination500>(
  lastPostId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getFeedPagination>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
@@ -939,7 +604,6 @@ export function useGetFeedPagination<TData = Awaited<ReturnType<typeof getFeedPa
 
 
 
-
 /**
  * @summary Get a post
  */
@@ -949,12 +613,12 @@ export type getPostResponse200 = {
 }
 
 export type getPostResponse404 = {
-  data: N404
+  data: GetPost404
   status: 404
 }
 
 export type getPostResponse500 = {
-  data: N500
+  data: GetPost500
   status: 500
 }
 
@@ -1003,7 +667,7 @@ export const getGetPostQueryKey = (postId: string,) => {
     }
 
 
-export const getGetPostQueryOptions = <TData = Awaited<ReturnType<typeof getPost>>, TError = N404 | N500>(postId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>>, fetch?: RequestInit}
+export const getGetPostQueryOptions = <TData = Awaited<ReturnType<typeof getPost>>, TError = GetPost404 | GetPost500>(postId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>>, fetch?: RequestInit}
 ) => {
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
@@ -1022,10 +686,10 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 }
 
 export type GetPostQueryResult = NonNullable<Awaited<ReturnType<typeof getPost>>>
-export type GetPostQueryError = N404 | N500
+export type GetPostQueryError = GetPost404 | GetPost500
 
 
-export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError = N404 | N500>(
+export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError = GetPost404 | GetPost500>(
  postId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getPost>>,
@@ -1035,7 +699,7 @@ export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError =
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError = N404 | N500>(
+export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError = GetPost404 | GetPost500>(
  postId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getPost>>,
@@ -1045,7 +709,7 @@ export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError =
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError = N404 | N500>(
+export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError = GetPost404 | GetPost500>(
  postId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
@@ -1053,7 +717,7 @@ export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError =
  * @summary Get a post
  */
 
-export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError = N404 | N500>(
+export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError = GetPost404 | GetPost500>(
  postId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
@@ -1068,7 +732,6 @@ export function useGetPost<TData = Awaited<ReturnType<typeof getPost>>, TError =
 
 
 
-
 /**
  * @summary Get all posts from an user
  */
@@ -1078,12 +741,12 @@ export type getAllPostsResponse200 = {
 }
 
 export type getAllPostsResponse404 = {
-  data: N404
+  data: GetAllPosts404
   status: 404
 }
 
 export type getAllPostsResponse500 = {
-  data: N500
+  data: GetAllPosts500
   status: 500
 }
 
@@ -1132,7 +795,7 @@ export const getGetAllPostsQueryKey = (username: string,) => {
     }
 
 
-export const getGetAllPostsQueryOptions = <TData = Awaited<ReturnType<typeof getAllPosts>>, TError = N404 | N500>(username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPosts>>, TError, TData>>, fetch?: RequestInit}
+export const getGetAllPostsQueryOptions = <TData = Awaited<ReturnType<typeof getAllPosts>>, TError = GetAllPosts404 | GetAllPosts500>(username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPosts>>, TError, TData>>, fetch?: RequestInit}
 ) => {
 
 const {query: queryOptions, fetch: fetchOptions} = options ?? {};
@@ -1151,10 +814,10 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 }
 
 export type GetAllPostsQueryResult = NonNullable<Awaited<ReturnType<typeof getAllPosts>>>
-export type GetAllPostsQueryError = N404 | N500
+export type GetAllPostsQueryError = GetAllPosts404 | GetAllPosts500
 
 
-export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, TError = N404 | N500>(
+export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, TError = GetAllPosts404 | GetAllPosts500>(
  username: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPosts>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllPosts>>,
@@ -1164,7 +827,7 @@ export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, 
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, TError = N404 | N500>(
+export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, TError = GetAllPosts404 | GetAllPosts500>(
  username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPosts>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllPosts>>,
@@ -1174,7 +837,7 @@ export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, 
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, TError = N404 | N500>(
+export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, TError = GetAllPosts404 | GetAllPosts500>(
  username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPosts>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
@@ -1182,7 +845,7 @@ export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, 
  * @summary Get all posts from an user
  */
 
-export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, TError = N404 | N500>(
+export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, TError = GetAllPosts404 | GetAllPosts500>(
  username: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPosts>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
@@ -1197,7 +860,6 @@ export function useGetAllPosts<TData = Awaited<ReturnType<typeof getAllPosts>>, 
 
 
 
-
 /**
  * @summary Get more posts from an user
  */
@@ -1207,12 +869,12 @@ export type getAllPostsPaginationResponse200 = {
 }
 
 export type getAllPostsPaginationResponse404 = {
-  data: N404
+  data: GetAllPostsPagination404
   status: 404
 }
 
 export type getAllPostsPaginationResponse500 = {
-  data: N500
+  data: GetAllPostsPagination500
   status: 500
 }
 
@@ -1264,7 +926,7 @@ export const getGetAllPostsPaginationQueryKey = (username: string,
     }
 
 
-export const getGetAllPostsPaginationQueryOptions = <TData = Awaited<ReturnType<typeof getAllPostsPagination>>, TError = N404 | N500>(username: string,
+export const getGetAllPostsPaginationQueryOptions = <TData = Awaited<ReturnType<typeof getAllPostsPagination>>, TError = GetAllPostsPagination404 | GetAllPostsPagination500>(username: string,
     lastPostId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPostsPagination>>, TError, TData>>, fetch?: RequestInit}
 ) => {
 
@@ -1284,10 +946,10 @@ const {query: queryOptions, fetch: fetchOptions} = options ?? {};
 }
 
 export type GetAllPostsPaginationQueryResult = NonNullable<Awaited<ReturnType<typeof getAllPostsPagination>>>
-export type GetAllPostsPaginationQueryError = N404 | N500
+export type GetAllPostsPaginationQueryError = GetAllPostsPagination404 | GetAllPostsPagination500
 
 
-export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAllPostsPagination>>, TError = N404 | N500>(
+export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAllPostsPagination>>, TError = GetAllPostsPagination404 | GetAllPostsPagination500>(
  username: string,
     lastPostId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPostsPagination>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
@@ -1298,7 +960,7 @@ export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAl
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAllPostsPagination>>, TError = N404 | N500>(
+export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAllPostsPagination>>, TError = GetAllPostsPagination404 | GetAllPostsPagination500>(
  username: string,
     lastPostId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPostsPagination>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
@@ -1309,7 +971,7 @@ export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAl
       >, fetch?: RequestInit}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAllPostsPagination>>, TError = N404 | N500>(
+export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAllPostsPagination>>, TError = GetAllPostsPagination404 | GetAllPostsPagination500>(
  username: string,
     lastPostId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPostsPagination>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
@@ -1318,7 +980,7 @@ export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAl
  * @summary Get more posts from an user
  */
 
-export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAllPostsPagination>>, TError = N404 | N500>(
+export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAllPostsPagination>>, TError = GetAllPostsPagination404 | GetAllPostsPagination500>(
  username: string,
     lastPostId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllPostsPagination>>, TError, TData>>, fetch?: RequestInit}
  , queryClient?: QueryClient
@@ -1330,7 +992,6 @@ export function useGetAllPostsPagination<TData = Awaited<ReturnType<typeof getAl
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
-
 
 
 

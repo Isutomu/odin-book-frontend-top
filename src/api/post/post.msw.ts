@@ -22,67 +22,22 @@ import type {
   GetAllPostsPagination200,
   GetFeed200,
   GetFeedPagination200,
-  GetPost200,
-  Login200,
-  Signup201,
-  VerifySession200
-} from './models';
+  GetPost200
+} from '../models';
 
-
-export const getSignupResponseMock = (overrideResponse: Partial<Extract<Signup201, object>> = {}): Signup201 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
-
-export const getLoginResponseMock = (overrideResponse: Partial<Extract<Login200, object>> = {}): Login200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
-
-export const getVerifySessionResponseMock = (overrideResponse: Partial<Extract<VerifySession200, object>> = {}): VerifySession200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
 
 export const getCreatePostResponseMock = (overrideResponse: Partial<Extract<CreatePost201, object>> = {}): CreatePost201 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
 
-export const getGetFeedResponseMock = (overrideResponse: Partial<Extract<GetFeed200, object>> = {}): GetFeed200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), content: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), publishedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z', undefined]), updatedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z', undefined]), author: faker.helpers.arrayElement([{username: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined])})), ...overrideResponse})
+export const getGetFeedResponseMock = (overrideResponse: Partial<Extract<GetFeed200, object>> = {}): GetFeed200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.uuid(), content: faker.string.alpha({length: {min: 10, max: 20}}), publishedAt: faker.date.past().toISOString().slice(0, 19) + 'Z', updatedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z',null,]), author: {username: faker.string.alpha({length: {min: 10, max: 20}})}})), ...overrideResponse})
 
-export const getGetFeedPaginationResponseMock = (overrideResponse: Partial<Extract<GetFeedPagination200, object>> = {}): GetFeedPagination200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: [], ...overrideResponse})
+export const getGetFeedPaginationResponseMock = (overrideResponse: Partial<Extract<GetFeedPagination200, object>> = {}): GetFeedPagination200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.uuid(), content: faker.string.alpha({length: {min: 10, max: 20}}), publishedAt: faker.date.past().toISOString().slice(0, 19) + 'Z', updatedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z',null,]), author: {username: faker.string.alpha({length: {min: 10, max: 20}})}})), ...overrideResponse})
 
-export const getGetPostResponseMock = (overrideResponse: Partial<Extract<GetPost200, object>> = {}): GetPost200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: {id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), content: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), publishedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z', undefined]), updatedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z', undefined]), author: faker.helpers.arrayElement([{username: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined])}, ...overrideResponse})
+export const getGetPostResponseMock = (overrideResponse: Partial<Extract<GetPost200, object>> = {}): GetPost200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: {id: faker.string.uuid(), content: faker.string.alpha({length: {min: 10, max: 20}}), publishedAt: faker.date.past().toISOString().slice(0, 19) + 'Z', updatedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z',null,]), author: {username: faker.string.alpha({length: {min: 10, max: 20}})}}, ...overrideResponse})
 
-export const getGetAllPostsResponseMock = (overrideResponse: Partial<Extract<GetAllPosts200, object>> = {}): GetAllPosts200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: [], ...overrideResponse})
+export const getGetAllPostsResponseMock = (overrideResponse: Partial<Extract<GetAllPosts200, object>> = {}): GetAllPosts200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.uuid(), content: faker.string.alpha({length: {min: 10, max: 20}}), publishedAt: faker.date.past().toISOString().slice(0, 19) + 'Z', updatedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z',null,]), author: {username: faker.string.alpha({length: {min: 10, max: 20}})}})), ...overrideResponse})
 
-export const getGetAllPostsPaginationResponseMock = (overrideResponse: Partial<Extract<GetAllPostsPagination200, object>> = {}): GetAllPostsPagination200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: [], ...overrideResponse})
+export const getGetAllPostsPaginationResponseMock = (overrideResponse: Partial<Extract<GetAllPostsPagination200, object>> = {}): GetAllPostsPagination200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.uuid(), content: faker.string.alpha({length: {min: 10, max: 20}}), publishedAt: faker.date.past().toISOString().slice(0, 19) + 'Z', updatedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z',null,]), author: {username: faker.string.alpha({length: {min: 10, max: 20}})}})), ...overrideResponse})
 
-
-export const getSignupMockHandler = (overrideResponse?: Signup201 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<Signup201> | Signup201), options?: RequestHandlerOptions) => {
-  return http.post('*/auth/signup', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-
-
-    return HttpResponse.json(overrideResponse !== undefined
-    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getSignupResponseMock(),
-      { status: 201
-      })
-  }, options)
-}
-
-export const getLoginMockHandler = (overrideResponse?: Login200 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<Login200> | Login200), options?: RequestHandlerOptions) => {
-  return http.post('*/auth/login', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-
-
-    return HttpResponse.json(overrideResponse !== undefined
-    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getLoginResponseMock(),
-      { status: 200
-      })
-  }, options)
-}
-
-export const getVerifySessionMockHandler = (overrideResponse?: VerifySession200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<VerifySession200> | VerifySession200), options?: RequestHandlerOptions) => {
-  return http.get('*/auth/verify-session', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-
-
-    return HttpResponse.json(overrideResponse !== undefined
-    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getVerifySessionResponseMock(),
-      { status: 200
-      })
-  }, options)
-}
 
 export const getCreatePostMockHandler = (overrideResponse?: CreatePost201 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<CreatePost201> | CreatePost201), options?: RequestHandlerOptions) => {
   return http.post('*/post/create', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
@@ -175,10 +130,7 @@ export const getGetAllPostsPaginationMockHandler = (overrideResponse?: GetAllPos
       })
   }, options)
 }
-export const getOdinbookAPIMock = () => [
-  getSignupMockHandler(),
-  getLoginMockHandler(),
-  getVerifySessionMockHandler(),
+export const getPostMock = () => [
   getCreatePostMockHandler(),
   getDeletePostMockHandler(),
   getUpdatePostMockHandler(),
