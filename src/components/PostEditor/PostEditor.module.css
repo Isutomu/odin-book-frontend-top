@@ -1,0 +1,13 @@
+.post {
+  display: flex;
+  gap: var(--spacing-base);
+  padding: var(--padding-xxs);
+  align-content: center;
+}
+
+.textarea {
+  flex-grow: 1;
+  field-sizing: content;
+  word-break: break-word;
+  border: none;
+}
