@@ -3,9 +3,12 @@ import { Navigate, Outlet } from "react-router-dom";
 import { createContext } from "react";
 
 // Local Modules
+import styles from "./ProtectedRoute.module.css";
 import { useVerifySession } from "../api/endpoints";
 import { Loading } from "../components/Loading/Loading";
-import { MainPage } from "../pages/MainPage/MainPage";
+import { Header } from "../components/Header/Header";
+import { MainMenu } from "../containers/MainMenu/MainMenu";
+import { SettingsMenu } from "../containers/SettingsMenu/SettingsMenu";
 
 // Exportable Constants
 export const UserContext = createContext(null);
@@ -19,9 +22,16 @@ export const ProtectedRoute = () => {
       <Loading loading={verifySession.isPending} />
       {!verifySession.isPending &&
         (verifySession.data?.status === 200 ? (
-          <MainPage>
-            <Outlet />
-          </MainPage>
+          <div className={styles.mainDiv}>
+            <Header />
+            <div className={styles.main}>
+              <aside className={styles.aside}>
+                <MainMenu />
+                <SettingsMenu />
+              </aside>
+              <Outlet />
+            </div>
+          </div>
         ) : (
           <Navigate to={"/login"} />
         ))}

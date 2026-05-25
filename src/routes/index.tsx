@@ -7,6 +7,7 @@ import { Login } from "../pages/Login/Login";
 import { UnprotectedRoute } from "./UnprotectedRoute";
 import { Signup } from "../pages/Signup/Signup";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { Homepage } from "../pages/Homepage/Homepage";
 
 export const routes = createBrowserRouter(
   [
@@ -21,11 +22,12 @@ export const routes = createBrowserRouter(
             { path: "/signup", element: <Signup /> },
           ],
         },
+        {
+          path: "/app",
+          element: <ProtectedRoute />,
+          children: [{ path: "/app", element: <Homepage /> }],
+        },
       ],
-    },
-    {
-      path: "/app",
-      element: <ProtectedRoute />,
     },
   ],
   { basename: import.meta.env.BASE_URL },

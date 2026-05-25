@@ -7,7 +7,7 @@ import { Navigate, useLocation, useOutlet } from "react-router-dom";
 import { Error } from "../components/Error/Error";
 
 // Exportable Constants
-type ErrorContextValue = {
+export type ErrorContextValue = {
   error: string | null;
   setError: (value: string) => void;
 } | null;
