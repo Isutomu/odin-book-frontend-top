@@ -17,10 +17,16 @@ import type {
 } from 'msw';
 
 import type {
+  CreatePost201,
+  GetAllPosts200,
+  GetAllPostsPagination200,
+  GetFeed200,
+  GetFeedPagination200,
+  GetPost200,
   Login200,
   Signup201,
   VerifySession200
-} from './endpoints.schemas';
+} from './models';
 
 
 export const getSignupResponseMock = (overrideResponse: Partial<Extract<Signup201, object>> = {}): Signup201 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
@@ -28,6 +34,18 @@ export const getSignupResponseMock = (overrideResponse: Partial<Extract<Signup20
 export const getLoginResponseMock = (overrideResponse: Partial<Extract<Login200, object>> = {}): Login200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
 
 export const getVerifySessionResponseMock = (overrideResponse: Partial<Extract<VerifySession200, object>> = {}): VerifySession200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
+
+export const getCreatePostResponseMock = (overrideResponse: Partial<Extract<CreatePost201, object>> = {}): CreatePost201 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), ...overrideResponse})
+
+export const getGetFeedResponseMock = (overrideResponse: Partial<Extract<GetFeed200, object>> = {}): GetFeed200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), content: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), publishedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z', undefined]), updatedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z', undefined]), author: faker.helpers.arrayElement([{username: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined])})), ...overrideResponse})
+
+export const getGetFeedPaginationResponseMock = (overrideResponse: Partial<Extract<GetFeedPagination200, object>> = {}): GetFeedPagination200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: [], ...overrideResponse})
+
+export const getGetPostResponseMock = (overrideResponse: Partial<Extract<GetPost200, object>> = {}): GetPost200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: {id: faker.helpers.arrayElement([faker.string.uuid(), undefined]), content: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), publishedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z', undefined]), updatedAt: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z', undefined]), author: faker.helpers.arrayElement([{username: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])}, undefined])}, ...overrideResponse})
+
+export const getGetAllPostsResponseMock = (overrideResponse: Partial<Extract<GetAllPosts200, object>> = {}): GetAllPosts200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: [], ...overrideResponse})
+
+export const getGetAllPostsPaginationResponseMock = (overrideResponse: Partial<Extract<GetAllPostsPagination200, object>> = {}): GetAllPostsPagination200 => ({message: faker.string.alpha({length: {min: 10, max: 20}}), data: [], ...overrideResponse})
 
 
 export const getSignupMockHandler = (overrideResponse?: Signup201 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<Signup201> | Signup201), options?: RequestHandlerOptions) => {
@@ -65,8 +83,108 @@ export const getVerifySessionMockHandler = (overrideResponse?: VerifySession200 
       })
   }, options)
 }
+
+export const getCreatePostMockHandler = (overrideResponse?: CreatePost201 | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => Promise<CreatePost201> | CreatePost201), options?: RequestHandlerOptions) => {
+  return http.post('*/post/create', async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getCreatePostResponseMock(),
+      { status: 201
+      })
+  }, options)
+}
+
+export const getDeletePostMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.delete>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.delete('*/post/delete/:postId', async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 204
+      })
+  }, options)
+}
+
+export const getUpdatePostMockHandler = (overrideResponse?: void | ((info: Parameters<Parameters<typeof http.patch>[1]>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.patch('*/post/update/:postId', async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 204
+      })
+  }, options)
+}
+
+export const getGetFeedMockHandler = (overrideResponse?: GetFeed200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<GetFeed200> | GetFeed200), options?: RequestHandlerOptions) => {
+  return http.get('*/post/feed', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getGetFeedResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getGetFeedPaginationMockHandler = (overrideResponse?: GetFeedPagination200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<GetFeedPagination200> | GetFeedPagination200), options?: RequestHandlerOptions) => {
+  return http.get('*/post/feed/pagination/:lastPostId', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getGetFeedPaginationResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getGetPostMockHandler = (overrideResponse?: GetPost200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<GetPost200> | GetPost200), options?: RequestHandlerOptions) => {
+  return http.get('*/post/read/:postId', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getGetPostResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getGetAllPostsMockHandler = (overrideResponse?: GetAllPosts200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<GetAllPosts200> | GetAllPosts200), options?: RequestHandlerOptions) => {
+  return http.get('*/post/read-all/:username', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getGetAllPostsResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getGetAllPostsPaginationMockHandler = (overrideResponse?: GetAllPostsPagination200 | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<GetAllPostsPagination200> | GetAllPostsPagination200), options?: RequestHandlerOptions) => {
+  return http.get('*/post/read-all/:username/pagination/:lastPostId', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getGetAllPostsPaginationResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
 export const getOdinbookAPIMock = () => [
   getSignupMockHandler(),
   getLoginMockHandler(),
-  getVerifySessionMockHandler()
+  getVerifySessionMockHandler(),
+  getCreatePostMockHandler(),
+  getDeletePostMockHandler(),
+  getUpdatePostMockHandler(),
+  getGetFeedMockHandler(),
+  getGetFeedPaginationMockHandler(),
+  getGetPostMockHandler(),
+  getGetAllPostsMockHandler(),
+  getGetAllPostsPaginationMockHandler()
 ]

@@ -1,0 +1,17 @@
+.feed {
+  height: 55vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-base);
+
+  padding: var(--spacing-sm);
+
+  overflow-y: auto;
+}
+
+.loadMoreContainer {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr;
+}

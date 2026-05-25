@@ -47,6 +47,15 @@ Which, being completely honest, is a respectable undertaking (also new year's en
 
 There will also be some heavy refactoring later on regarding WCAG compliance, as I'm doing a lot already and don't think I can also include this (but again, I will refactor upon 1.0, because it's really important!!!).
 
+### Website Philosophy
+
+Ok, that's 100% a weird section name but hear me out.
+Here I want to put some considerations regarding (mostly) the visual design of the website that are bound to be seen as weird.
+Certainly I will fumble unintentionally, but there are some "fumbles" that are intentional, so I wanted to address them here:
+
+1. The posts order breaks a linear flow (it does a "zigzag"). Although the idea of the project IS to replicate existing social media websites I'm taking some liberties, and one of them is to disencourage infinite scrolling. I was even gonna do true pagination (like the search pages on google), but doing continuous is more technically challenging so we're going with that.
+2. The website is supposed to be kinda ugly. I want it to be whimsical, and making it more "chunky" and with really questionable colors include that.
+
 ## Features to implement
 
 > [!IMPORTANT]

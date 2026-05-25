@@ -31,3 +31,53 @@ export type VerifySession200 = {
   message: string;
 };
 
+export type CreatePostBody = {
+  content: string;
+};
+
+export type CreatePost201 = {
+  message: string;
+};
+
+export type UpdatePostBody = {
+  content: Content;
+};
+
+export type GetFeed200 = {
+  message: string;
+  /** @maxItems 10 */
+  data: Data[];
+};
+
+export type GetFeedPagination200 = {
+  message: string;
+  data: Data;
+};
+
+export type GetPost200DataAuthor = {
+  username?: string;
+};
+
+export type GetPost200Data = {
+  id?: string;
+  content?: string;
+  publishedAt?: string;
+  updatedAt?: string | unknown;
+  author?: GetPost200DataAuthor;
+};
+
+export type GetPost200 = {
+  message: string;
+  data: GetPost200Data;
+};
+
+export type GetAllPosts200 = {
+  message: string;
+  data: Data;
+};
+
+export type GetAllPostsPagination200 = {
+  message: string;
+  data: Data;
+};
+

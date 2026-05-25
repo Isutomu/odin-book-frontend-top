@@ -1,0 +1,6 @@
+.div {
+  display: flex;
+  flex-direction: column;
+
+  padding: var(--padding-base) 0 var(--padding-base) var(--padding-lg);
+}

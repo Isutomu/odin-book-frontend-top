@@ -1,0 +1,59 @@
+.post {
+  border-width: var(--border-width-xs);
+  border-style: solid;
+  border-color: var(--faded);
+  background-color: var(--accent);
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.main {
+  padding: var(--padding-sm) var(--padding-lg);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.icon {
+  padding: var(--padding-xxs);
+  border-width: var(--border-width-xs);
+  border-style: solid;
+  border-color: var(--primary);
+  border-radius: 50%;
+}
+
+.username {
+  font-size: var(--text-lg);
+}
+
+.date {
+  font-size: var(--text-xs);
+  color: var(--faded);
+}
+
+.content {
+  font-size: var(--text-lg);
+}
+
+.reactionsMenu {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.reactionsMenu > li {
+  background-color: var(--inner-background);
+}

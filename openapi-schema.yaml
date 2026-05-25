@@ -7,14 +7,16 @@ info:
     email: isutomu@gmail.com
   license:
     name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0.html
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
   - name: auth
     description: Authentication and authorization operations.
+  - name: post
+    description: CRUD operations with post(s).
 servers:
-  - url: http://localhost:5173
+  - url: 'http://localhost:5173'
     description: Localhost Development Server
-  - url: https://odin-book-backend-top-production.up.railway.app
+  - url: 'https://odin-book-backend-top-production.up.railway.app'
     description: Production Server
 paths:
   /auth/signup:
@@ -41,7 +43,7 @@ paths:
                 password:
                   type: string
       responses:
-        "201":
+        '201':
           description: Created User
           content:
             application/json:
@@ -56,9 +58,8 @@ paths:
             Set-Cookie:
               schema:
                 type: string
-                example: connect.sid=abcde12345; Path=/; Expires=Wed, 01 Apr 1990 20:20:20 GMT;
-                  HttpOnly
-        "409":
+                example: 'connect.sid=abcde12345; Path=/; Expires=Wed, 01 Apr 1990 20:20:20 GMT; HttpOnly'
+        '409':
           description: Conflict
           content:
             application/json:
@@ -69,20 +70,28 @@ paths:
                 properties:
                   message:
                     type: string
-        "422":
+        '422':
           description: Unprocessable Content
           content:
             application/json:
               schema:
-                $ref: "#/paths/~1auth~1signup/post/responses/409/content/application~1json/sche\
-                  ma"
-        "500":
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/paths/~1auth~1signup/post/responses/409/content/application~1json/sche\
-                  ma"
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
   /auth/login:
     post:
       summary: Login an user
@@ -100,13 +109,11 @@ paths:
                 - password
               properties:
                 username:
-                  $ref: "#/paths/~1auth~1signup/post/requestBody/content/application~1json/schema\
-                    /properties/username"
+                  type: string
                 password:
-                  $ref: "#/paths/~1auth~1signup/post/requestBody/content/application~1json/schema\
-                    /properties/password"
+                  type: string
       responses:
-        "200":
+        '200':
           description: Logged in user
           content:
             application/json:
@@ -121,12 +128,29 @@ paths:
             Set-Cookie:
               schema:
                 type: string
-                example: connect.sid=abcde12345; Path=/; Expires=Wed, 01 Apr 1990 20:20:20 GMT;
-                  HttpOnly
-        "422":
-          $ref: "#/paths/~1auth~1signup/post/responses/422"
-        "500":
-          $ref: "#/paths/~1auth~1signup/post/responses/500"
+                example: 'connect.sid=abcde12345; Path=/; Expires=Wed, 01 Apr 1990 20:20:20 GMT; HttpOnly'
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
   /auth/verify-session:
     get:
       summary: Verify is user session is valid
@@ -136,7 +160,7 @@ paths:
       security:
         - cookieAuth: []
       responses:
-        "200":
+        '200':
           description: Session is valid
           content:
             application/json:
@@ -147,15 +171,555 @@ paths:
                 properties:
                   message:
                     type: string
-        "401":
+        '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                $ref: "#/paths/~1auth~1signup/post/responses/409/content/application~1json/sche\
-                  ma"
-        "500":
-          $ref: "#/paths/~1auth~1signup/post/responses/500"
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+  /post/create:
+    post:
+      summary: Create a post
+      operationId: createPost
+      tags:
+        - post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+      responses:
+        '201':
+          description: Created post
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '422':
+          description: Unprocessable Content
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+  '/post/delete/{postId}':
+    delete:
+      summary: Delete a post
+      operationId: deletePost
+      tags:
+        - post
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+          description: ID of the post to delete
+      responses:
+        '204':
+          description: Deleted post
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+  '/post/update/{postId}':
+    patch:
+      summary: Update a post content
+      operationId: updatePost
+      tags:
+        - post
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+          description: ID of the post to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+      responses:
+        '204':
+          description: Updated post
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+  /post/feed:
+    get:
+      summary: Get an user feed
+      operationId: getFeed
+      tags:
+        - post
+      responses:
+        '200':
+          description: Got feed
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - data
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - id
+                        - content
+                        - publishedAt
+                        - updatedAt
+                        - author
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        content:
+                          type: string
+                        publishedAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          oneOf:
+                            - type: string
+                              format: date-time
+                            - type: 'null'
+                        author:
+                          type: object
+                          required:
+                            - username
+                          properties:
+                            username:
+                              type: string
+                    maxItems: 10
+                    uniqueItems: true
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+  '/post/feed/pagination/{lastPostId}':
+    get:
+      summary: Get more posts from an user feed
+      operationId: getFeedPagination
+      tags:
+        - post
+      parameters:
+        - in: path
+          name: lastPostId
+          schema:
+            type: string
+          required: true
+          description: ID of the last post of the current feed on the frontend
+      responses:
+        '200':
+          description: Got more posts of feed
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - data
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - id
+                        - content
+                        - publishedAt
+                        - updatedAt
+                        - author
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        content:
+                          type: string
+                        publishedAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          oneOf:
+                            - type: string
+                              format: date-time
+                            - type: 'null'
+                        author:
+                          type: object
+                          required:
+                            - username
+                          properties:
+                            username:
+                              type: string
+                    maxItems: 10
+                    uniqueItems: true
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+  '/post/read/{postId}':
+    get:
+      summary: Get a post
+      operationId: getPost
+      tags:
+        - post
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+          description: ID of the post
+      responses:
+        '200':
+          description: Got post
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - data
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    required:
+                      - id
+                      - content
+                      - publishedAt
+                      - updatedAt
+                      - author
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                      content:
+                        type: string
+                      publishedAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        oneOf:
+                          - type: string
+                            format: date-time
+                          - type: 'null'
+                      author:
+                        type: object
+                        required:
+                          - username
+                        properties:
+                          username:
+                            type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+  '/post/read-all/{username}':
+    get:
+      summary: Get all posts from an user
+      operationId: getAllPosts
+      tags:
+        - post
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: username
+      responses:
+        '200':
+          description: Got user's posts
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - data
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - id
+                        - content
+                        - publishedAt
+                        - updatedAt
+                        - author
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        content:
+                          type: string
+                        publishedAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          oneOf:
+                            - type: string
+                              format: date-time
+                            - type: 'null'
+                        author:
+                          type: object
+                          required:
+                            - username
+                          properties:
+                            username:
+                              type: string
+                    maxItems: 10
+                    uniqueItems: true
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+  '/post/read-all/{username}/pagination/{lastPostId}':
+    get:
+      summary: Get more posts from an user
+      operationId: getAllPostsPagination
+      tags:
+        - post
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          required: true
+          description: username
+        - in: path
+          name: lastPostId
+          schema:
+            type: string
+          required: true
+          description: ID of the last post of the current feed on the frontend
+      responses:
+        '200':
+          description: Got user's posts
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - data
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - id
+                        - content
+                        - publishedAt
+                        - updatedAt
+                        - author
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                        content:
+                          type: string
+                        publishedAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          oneOf:
+                            - type: string
+                              format: date-time
+                            - type: 'null'
+                        author:
+                          type: object
+                          required:
+                            - username
+                          properties:
+                            username:
+                              type: string
+                    maxItems: 10
+                    uniqueItems: true
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
 components:
   securitySchemes:
     cookieAuth:
